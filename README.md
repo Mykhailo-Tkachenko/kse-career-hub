@@ -1,32 +1,32 @@
-# React + TypeScript + Vite
+# KSE Career Hub — демо
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Демо-версія платформи для проєкту KSE Career Hub (KSE Project Management course).
+Показує два флоу без реальної авторизації — перемикач "Я студент / Я компанія" у навбарі.
 
-Currently, two official plugins are available:
+## Стек
+- React + TypeScript + Vite
+- Tailwind CSS 4 (через `@tailwindcss/vite`)
+- react-router-dom
+- Мок-дані в `src/data/mockData.ts` (без backend)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Запуск у WebStorm
+1. Відкрити папку проєкту у WebStorm.
+2. У терміналі: `npm install`
+3. `npm run dev` — піднімає dev-сервер (зазвичай http://localhost:5173)
+4. WebStorm також підхопить запуск через конфігурацію npm scripts (праворуч на іконці `package.json` → Run 'dev').
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Структура
+```
+src/
+  pages/        Landing, Listings, ListingDetail, CompanyDashboard, PostListing
+  components/   Navbar, ListingCard, FilterBar
+  context/      RoleContext — перемикач ролі студент/компанія (demo-only)
+  data/         mockData.ts — вакансії та компанії
+  types/        спільні TS-типи
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Що далі (ідеї для продовження)
+- Форма "Нова вакансія" зараз не зберігає дані — можна підв'язати до стейту/localStorage.
+- Додати сторінку профілю студента.
+- Реальна авторизація замість перемикача ролей.
+- Підключити справжній backend/БД, якщо знадобиться для захисту проєкту.
