@@ -1,9 +1,19 @@
-import { Link, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useRole } from '../context/RoleContext'
+import { useAuth } from '../context/AuthContext'
 
 export default function Navbar() {
   const { role, setRole } = useRole()
+  const { user, signOut } = useAuth()
   const location = useLocation()
+  const navigate = useNavigate()
+
+  // Роль у навбарі відповідає розділу, в якому знаходиться користувач
+  useEffect(() => {
+    if (location.pathname.startsWith('/company')) setRole('company')
+    else if (location.pathname.startsWith('/listings')) setRole('student')
+  }, [location.pathname, setRole])
 
   const linkClass = (path: string) =>
     `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -42,7 +52,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-2 text-sm bg-slate-100 rounded-full p-1">
           <button
-            onClick={() => setRole('student')}
+            onClick={() => navigate('/listings')}
             className={`px-3 py-1.5 rounded-full transition-colors ${
               role === 'student' ? 'bg-white shadow text-indigo-700 font-medium' : 'text-slate-500'
             }`}
@@ -50,13 +60,36 @@ export default function Navbar() {
             Я студент
           </button>
           <button
-            onClick={() => setRole('company')}
+            onClick={() => navigate('/company')}
             className={`px-3 py-1.5 rounded-full transition-colors ${
               role === 'company' ? 'bg-white shadow text-indigo-700 font-medium' : 'text-slate-500'
             }`}
           >
             Я компанія
           </button>
+        </div>
+
+        <div className="flex items-center gap-2 text-sm">
+          {user ? (
+            <>
+              <span className="text-slate-500 hidden md:inline">{user.email}</span>
+              <button
+                onClick={signOut}
+                className="px-3 py-2 rounded-md font-medium text-slate-600 hover:bg-slate-100"
+              >
+                Вийти
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className={linkClass('/login')}>
+                Увійти
+              </Link>
+              <Link to="/register" className={linkClass('/register')}>
+                Реєстрація
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

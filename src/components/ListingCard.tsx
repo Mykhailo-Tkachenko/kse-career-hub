@@ -1,11 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Listing } from '../types'
-
-const typeLabel: Record<Listing['type'], string> = {
-  internship: 'Стажування',
-  'part-time': 'Часткова зайнятість',
-  'full-time': 'Повна зайнятість',
-}
+import { typeLabel } from '../lib/listings'
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   return (

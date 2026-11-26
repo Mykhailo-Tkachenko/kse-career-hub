@@ -13,7 +13,14 @@ export interface Listing {
   requirements: string[]
   postedAt: string
   applicants: number
+  isActive: boolean
 }
+
+// Поля, які компанія заповнює у формі вакансії
+export type ListingInput = Pick<
+  Listing,
+  'title' | 'type' | 'location' | 'remote' | 'category' | 'description' | 'requirements'
+>
 
 export interface Company {
   id: string
@@ -24,3 +31,11 @@ export interface Company {
 }
 
 export type UserRole = 'student' | 'company'
+
+export interface Application {
+  id: string
+  listingId: string
+  applicantEmail: string
+  cvPath: string
+  createdAt: string
+}

@@ -1,0 +1,5 @@
+# Змінні Supabase задані в налаштуваннях проєкту Vercel, локальний .env не завантажуємо
+.env
+.idea
+node_modules
+dist

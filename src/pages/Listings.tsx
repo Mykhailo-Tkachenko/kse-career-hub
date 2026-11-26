@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { listings } from '../data/mockData'
+import { fetchListings, useQuery } from '../lib/listings'
 import ListingCard from '../components/ListingCard'
 import FilterBar from '../components/FilterBar'
 
@@ -7,8 +7,9 @@ export default function Listings() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
   const [type, setType] = useState('')
+  const { data: listings = [], loading, error } = useQuery(() => fetchListings(), [])
 
-  const categories = useMemo(() => Array.from(new Set(listings.map((l) => l.category))), [])
+  const categories = useMemo(() => Array.from(new Set(listings.map((l) => l.category))), [listings])
 
   const filtered = listings.filter((l) => {
     const matchesSearch =
@@ -22,7 +23,14 @@ export default function Listings() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold text-slate-900 mb-1">Вакансії та стажування</h1>
-      <p className="text-slate-500 mb-6">Знайдено {filtered.length} пропозицій</p>
+      <p className="text-slate-500 mb-6">
+        {loading ? 'Завантаження...' : `Знайдено ${filtered.length} пропозицій`}
+      </p>
+      {error && (
+        <p className="mb-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+          Не вдалося завантажити вакансії: {error}
+        </p>
+      )}
 
       <FilterBar
         search={search}
@@ -38,7 +46,7 @@ export default function Listings() {
         {filtered.map((listing) => (
           <ListingCard key={listing.id} listing={listing} />
         ))}
-        {filtered.length === 0 && (
+        {!loading && !error && filtered.length === 0 && (
           <p className="text-slate-500 col-span-2 text-center py-10">
             Нічого не знайдено за цим запитом.
           </p>
